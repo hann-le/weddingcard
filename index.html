@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>T & V Wedding Invitation</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================= INTRO SCREEN ================= -->
+  <main id="intro" class="intro">
+    <div class="envelope-image">
+      <img src="envelop.jpg" alt="Wedding invitation envelope">
+
+      <!-- Invisible clickable wax area -->
+      <button
+        id="sealBtn"
+        class="wax-hit"
+        type="button"
+        aria-label="Open invitation"
+      ></button>
+    </div>
+  </main>
+
+  <!-- ================= MAIN INVITATION ================= -->
+  <main id="site" class="site" hidden>
+
+    <section class="hero" id="top">
+      <!-- ✅ Overlapping monogram instead of & -->
+      <h1 class="hero-monogram monogram" aria-label="T and V">
+        <span class="mono-left">T</span>
+        <span class="mono-right">V</span>
+      </h1>
+
+      <p class="date">January —, 2027</p>
+    </section>
+
+    <section class="content">
+      <div class="card">
+        <h2>Location</h2>
+        <p>Vietnam</p>
+      </div>
+
+      <div class="card">
+        <h2>Schedule</h2>
+        <p>Ceremony — TBD</p>
+        <p>Reception — TBD</p>
+      </div>
+
+      <div class="card">
+        <h2>Dress Code</h2>
+        <p>Semi-Formal</p>
+      </div>
+    </section>
+
+    <section class="rsvp" id="rsvp">
+      <h2>RSVP</h2>
+      <form onsubmit="return submitRSVP(event)">
+        <input name="name" required placeholder="Your name">
+        <input name="email" type="email" required placeholder="Email">
+        <select name="attendance" required>
+          <option value="" disabled selected>Attendance</option>
+          <option value="yes">Accepts with pleasure</option>
+          <option value="no">Regretfully declines</option>
+        </select>
+        <button type="submit">Submit RSVP</button>
+        <p id="rsvpMsg"></p>
+      </form>
+    </section>
+
+    <footer>
+      <!-- ✅ Optional: monogram in footer too -->
+      <div class="footer-monogram monogram" aria-label="T and V">
+        <span class="mono-left">T</span>
+        <span class="mono-right">V</span>
+      </div>
+
+      <div style="margin-top:10px;">
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- ================= PAPER INVITATION POPUP ================= -->
+  <div id="saveDateModal" class="paper-modal" hidden>
+    <div class="paper-backdrop"></div>
+
+    <div class="paper-sheet" role="dialog" aria-modal="true" aria-label="Save the date">
+      <div class="paper-grain" aria-hidden="true"></div>
+      <div class="paper-edge" aria-hidden="true"></div>
+      <div class="paper-scan" aria-hidden="true"></div>
+
+      <p class="paper-kicker">SAVE THE DATE</p>
+
+      <!-- ✅ Overlapping monogram here too -->
+      <h2 class="paper-title monogram" aria-label="T and V">
+        <span class="mono-left">T</span>
+        <span class="mono-right">V</span>
+      </h2>
+
+      <p class="paper-sub">
+        You’re invited to celebrate with us.<br>
+        Tap below for the full details.
+      </p>
+
+      <div class="paper-divider" aria-hidden="true"></div>
+
+      <button id="detailsBtn" class="paper-cta" type="button">
+        Click for more details →
+      </button>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="script.js"></script>
+</body>
+</html>
