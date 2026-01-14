@@ -1,149 +1,78 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // ===== Main elements =====
-  const sealBtn = document.getElementById("sealBtn");      // your invisible wax-hit button
-  const intro = document.getElementById("intro");
-  const site = document.getElementById("site");
-  const envelopeWrap = document.querySelector(".envelope-image");
+const seal = document.getElementById("sealBtn");
+const intro = document.getElementById("intro");
+const site = document.getElementById("site");
 
-  // ===== Paper modal elements =====
-  const modal = document.getElementById("saveDateModal");  // paper-modal
-  const detailsBtn = document.getElementById("detailsBtn");
-  const backdrop = document.querySelector(".paper-backdrop");
+const modal = document.getElementById("saveDateModal");
+const detailsBtn = document.getElementById("detailsBtn");
 
-  if (!sealBtn || !intro || !site || !envelopeWrap || !modal || !detailsBtn) {
-    console.warn("Missing elements. Check your IDs/classes in HTML.");
-    return;
-  }
+// Side nav elements
+const menuBtn = document.getElementById("menuBtn");
+const sideNav = document.getElementById("sideNav");
+const closeNavBtn = document.getElementById("closeNavBtn");
+const navBackdrop = document.getElementById("navBackdrop");
 
-  // ========= Micro “seal unlock” sound (no file needed) =========
-  function playUnlockSound() {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioCtx();
-      const now = ctx.currentTime;
+const navLinks = document.querySelectorAll(".nav-link");
+const pages = document.querySelectorAll(".page");
 
-      // little “click + chime”
-      const o1 = ctx.createOscillator();
-      const o2 = ctx.createOscillator();
-      const g = ctx.createGain();
+// ---- Open invitation flow ----
+seal?.addEventListener("click", () => {
+  // little pulse effect on envelope image (optional class)
+  document.querySelector(".envelope-image")?.classList.add("pulse");
+  setTimeout(() => document.querySelector(".envelope-image")?.classList.remove("pulse"), 520);
 
-      o1.type = "triangle";
-      o2.type = "sine";
+  // show the paper modal
+  modal.hidden = false;
+});
 
-      o1.frequency.setValueAtTime(740, now);
-      o2.frequency.setValueAtTime(1046.5, now + 0.06);
+// When user clicks “details”
+detailsBtn?.addEventListener("click", () => {
+  // fade out intro
+  intro.classList.add("page-out");
 
-      g.gain.setValueAtTime(0.0001, now);
-      g.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+  // hide modal
+  modal.hidden = true;
 
-      o1.connect(g);
-      o2.connect(g);
-      g.connect(ctx.destination);
-
-      o1.start(now);
-      o2.start(now + 0.06);
-      o1.stop(now + 0.24);
-      o2.stop(now + 0.24);
-
-      setTimeout(() => ctx.close(), 350);
-    } catch (e) {
-      // ignore if blocked
-    }
-  }
-
-  // ========= Modal controls =========
-  function openModal() {
-    modal.hidden = false;
-  }
-
-  function closeModal() {
-    modal.hidden = true;
-  }
-
-  // ========= Transition into main page =========
-  function goToMainPage() {
-    closeModal();
-
-    // fade/blur out intro
-    intro.classList.add("page-out");
-
-    // show main page
+  setTimeout(() => {
+    intro.style.display = "none";
     site.hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 520);
+});
 
-    // remove intro after animation
-    setTimeout(() => {
-      intro.style.display = "none";
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 520);
-  }
+// ---- Side nav open/close ----
+function openNav(){
+  sideNav.classList.add("open");
+  navBackdrop.hidden = false;
+  menuBtn.setAttribute("aria-expanded", "true");
+  sideNav.setAttribute("aria-hidden", "false");
+}
 
-  // ========= Envelope tilt (high-tech but subtle) =========
-  function setTiltVars(x, y) {
-    // x/y are 0..1 relative to container
-    const tiltX = (x - 0.5) * 8;   // rotateY
-    const tiltY = (0.5 - y) * 6;   // rotateX
-    envelopeWrap.style.setProperty("--tiltX", `${tiltX}deg`);
-    envelopeWrap.style.setProperty("--tiltY", `${tiltY}deg`);
-    envelopeWrap.style.setProperty("--mx", `${x * 100}%`);
-    envelopeWrap.style.setProperty("--my", `${y * 100}%`);
-  }
+function closeNav(){
+  sideNav.classList.remove("open");
+  navBackdrop.hidden = true;
+  menuBtn.setAttribute("aria-expanded", "false");
+  sideNav.setAttribute("aria-hidden", "true");
+}
 
-  envelopeWrap.addEventListener("pointermove", (e) => {
-    const rect = envelopeWrap.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setTiltVars(Math.max(0, Math.min(1, x)), Math.max(0, Math.min(1, y)));
+menuBtn?.addEventListener("click", openNav);
+closeNavBtn?.addEventListener("click", closeNav);
+navBackdrop?.addEventListener("click", closeNav);
+
+// ---- Page switching ----
+function showPage(id){
+  pages.forEach(p => p.classList.remove("is-active"));
+  document.getElementById(id)?.classList.add("is-active");
+
+  navLinks.forEach(b => b.classList.remove("is-active"));
+  document.querySelector(`.nav-link[data-target="${id}"]`)?.classList.add("is-active");
+
+  closeNav();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+navLinks.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = btn.getAttribute("data-target");
+    if (target) showPage(target);
   });
-
-  envelopeWrap.addEventListener("pointerleave", () => {
-    // reset nicely
-    envelopeWrap.style.setProperty("--tiltX", `0deg`);
-    envelopeWrap.style.setProperty("--tiltY", `0deg`);
-    envelopeWrap.style.setProperty("--mx", `50%`);
-    envelopeWrap.style.setProperty("--my", `50%`);
-  });
-
-  // ========= Wax click: sound + pulse + show paper sheet =========
-  sealBtn.addEventListener("click", () => {
-    playUnlockSound();
-
-    // pulse effect on envelope
-    envelopeWrap.classList.remove("pulse");
-    void envelopeWrap.offsetWidth; // restart animation
-    envelopeWrap.classList.add("pulse");
-
-    // show paper invitation sheet
-    setTimeout(openModal, 180);
-  });
-
-  // ========= CTA click: ripple + go =========
-  detailsBtn.addEventListener("click", (e) => {
-    // ripple (optional)
-    const r = document.createElement("span");
-    r.className = "ripple";
-    const rect = detailsBtn.getBoundingClientRect();
-    r.style.left = `${e.clientX - rect.left}px`;
-    r.style.top = `${e.clientY - rect.top}px`;
-    detailsBtn.appendChild(r);
-    setTimeout(() => r.remove(), 750);
-
-    setTimeout(goToMainPage, 120);
-  });
-
-  // optional: click outside to close (remove if you don't want close)
-  if (backdrop) backdrop.addEventListener("click", closeModal);
-
-  // ESC to close
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) closeModal();
-  });
-
-  // RSVP handler (your form calls submitRSVP)
-  window.submitRSVP = function (e) {
-    e.preventDefault();
-    const msg = document.getElementById("rsvpMsg");
-    if (msg) msg.textContent = "Thank you! Your RSVP has been received.";
-    return false;
-  };
 });
