@@ -10,7 +10,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,70 +20,129 @@
       <img src="envelop.jpg" alt="Wedding invitation envelope">
 
       <!-- Invisible clickable wax area -->
-      <button
-        id="sealBtn"
-        class="wax-hit"
-        type="button"
-        aria-label="Open invitation"
-      ></button>
+      <button id="sealBtn" class="wax-hit" type="button" aria-label="Open invitation"></button>
     </div>
   </main>
 
   <!-- ================= MAIN INVITATION ================= -->
   <main id="site" class="site" hidden>
 
-    <section class="hero" id="top">
-      <!-- ✅ Overlapping monogram instead of & -->
-      <h1 class="hero-monogram monogram" aria-label="T and V">
-        <span class="mono-left">T</span>
-        <span class="mono-right">V</span>
-      </h1>
+    <!-- Top-left hamburger -->
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
 
-      <p class="date">January —, 2027</p>
-    </section>
-
-    <section class="content">
-      <div class="card">
-        <h2>Location</h2>
-        <p>Vietnam</p>
+    <!-- Side nav (left) -->
+    <aside class="side-nav" id="sideNav" aria-hidden="true">
+      <div class="side-head">
+        <div class="side-monogram monogram" aria-label="T and V">
+          <span class="mono-left">T</span>
+          <span class="mono-right">V</span>
+        </div>
+        <button class="close-btn" id="closeNavBtn" type="button" aria-label="Close menu">✕</button>
       </div>
 
-      <div class="card">
-        <h2>Schedule</h2>
-        <p>Ceremony — TBD</p>
-        <p>Reception — TBD</p>
+      <nav class="side-links" aria-label="Site navigation">
+        <button class="nav-link is-active" data-target="page-home" type="button">Home</button>
+        <button class="nav-link" data-target="page-rsvp" type="button">Reservation</button>
+        <button class="nav-link" data-target="page-info" type="button">Page 3</button>
+        <button class="nav-link" data-target="page-gallery" type="button">Page 4</button>
+      </nav>
+
+      <div class="side-foot">
+        <div class="small-muted">T &amp; V • 2027</div>
       </div>
+    </aside>
 
-      <div class="card">
-        <h2>Dress Code</h2>
-        <p>Semi-Formal</p>
-      </div>
-    </section>
+    <!-- Backdrop for nav -->
+    <div class="nav-backdrop" id="navBackdrop" hidden></div>
 
-    <section class="rsvp" id="rsvp">
-      <h2>RSVP</h2>
-      <form onsubmit="return submitRSVP(event)">
-        <input name="name" required placeholder="Your name">
-        <input name="email" type="email" required placeholder="Email">
-        <select name="attendance" required>
-          <option value="" disabled selected>Attendance</option>
-          <option value="yes">Accepts with pleasure</option>
-          <option value="no">Regretfully declines</option>
-        </select>
-        <button type="submit">Submit RSVP</button>
-        <p id="rsvpMsg"></p>
-      </form>
-    </section>
+    <!-- Pages wrapper -->
+    <div class="pages">
 
-    <footer>
-      <!-- ✅ Optional: monogram in footer too -->
+      <!-- ===== PAGE 1: HOME ===== -->
+      <section id="page-home" class="page is-active" aria-label="Home">
+        <header class="hero" id="top">
+          <h1 class="hero-monogram monogram" aria-label="T and V">
+            <span class="mono-left">T</span>
+            <span class="mono-right">V</span>
+          </h1>
+          <p></p>
+          <p class="date">January —, 2027</p>
+        </header>
+
+        <section class="content">
+          <div class="card">
+            <h2>Location</h2>
+            <p>Vietnam</p>
+          </div>
+
+          <div class="card">
+            <h2>Schedule</h2>
+            <p>Ceremony — TBD</p>
+            <p>Reception — TBD</p>
+          </div>
+
+          <div class="card">
+            <h2>Dress Code</h2>
+            <p>-</p>
+          </div>
+        </section>
+      </section>
+
+      <!-- ===== PAGE 2: RSVP ===== -->
+      <section id="page-rsvp" class="page" aria-label="Reservation">
+        <header class="page-head">
+          <h2>Reservation</h2>
+          <p class="muted">Please RSVP using the form below.</p>
+        </header>
+
+        <div class="paper-wrap">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdaFRP8UgD3XZm4IxSUnsEhJSw1AMFHsB6FZ-bh0t1JMqc8rQ/viewform?embedded=true"
+            title="T & V RSVP Form"
+            loading="lazy"
+          ></iframe>
+
+          <div class="iframe-fallback">
+            Having trouble loading? 
+            <a class="link" href="https://docs.google.com/forms/d/e/1FAIpQLSdaFRP8UgD3XZm4IxSUnsEhJSw1AMFHsB6FZ-bh0t1JMqc8rQ/viewform" target="_blank" rel="noopener">
+              Open RSVP form
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== PAGE 3: PLACEHOLDER ===== -->
+      <section id="page-info" class="page" aria-label="Page 3">
+        <header class="page-head">
+          <h2>Page 3</h2>
+          <p class="muted"> </p>
+        </header>
+
+        <div class="card">
+          <h3> - </h3>
+        </div>
+      </section>
+
+      <!-- ===== PAGE 4: PLACEHOLDER ===== -->
+      <section id="page-gallery" class="page" aria-label="Page 4">
+        <header class="page-head">
+          <h2>Page 4</h2>
+          <p class="muted"> </p>
+        </header>
+
+        <div class="card">
+          <h3> - </h3>
+        </div>
+      </section>
+
+    </div>
+
+    <footer class="site-footer">
       <div class="footer-monogram monogram" aria-label="T and V">
         <span class="mono-left">T</span>
         <span class="mono-right">V</span>
-      </div>
-
-      <div style="margin-top:10px;">
-        <a href="#top">Back to top ↑</a>
       </div>
     </footer>
 
@@ -100,12 +158,7 @@
       <div class="paper-scan" aria-hidden="true"></div>
 
       <p class="paper-kicker">SAVE THE DATE</p>
-
-      <!-- ✅ Overlapping monogram here too -->
-      <h2 class="paper-title monogram" aria-label="T and V">
-        <span class="mono-left">T</span>
-        <span class="mono-right">V</span>
-      </h2>
+      <p></p>
 
       <p class="paper-sub">
         You’re invited to celebrate with us.<br>
@@ -120,7 +173,6 @@
     </div>
   </div>
 
-  <!-- JS -->
   <script src="script.js"></script>
 </body>
 </html>
