@@ -106,28 +106,6 @@ body{
   pointer-events:auto;
 }
 
-/* optional hover glow */
-.wax-hit:hover{
-  box-shadow: 0 0 0 8px rgba(255,255,255,.12);
-}
-
-/* show “click here” shimmer */
-.wax-hit::after{
-  content:"";
-  position:absolute;
-  inset:-18px;
-  border-radius:999px;
-  background:
-    conic-gradient(from 90deg,
-      rgba(255,255,255,.0),
-      rgba(255,255,255,.18),
-      rgba(127,162,146,.12),
-      rgba(255,255,255,.0));
-  opacity:0;
-  filter: blur(1px);
-  transition: opacity 220ms ease;
-}
-.wax-hit:hover::after{ opacity:.55; }
 
 /* ============ PAGE TRANSITION ============ */
 .intro, .site{
@@ -147,8 +125,13 @@ body{
 /* ============ MAIN PAGE ============ */
 .site{
   min-height:100vh;
-  background: linear-gradient(180deg, #f7f5f1, #ece6dc);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, rgba(255,255,255,.85), transparent 60%),
+    radial-gradient(900px 520px at 20% 40%, rgba(127,162,146,.18), transparent 60%),
+    radial-gradient(900px 520px at 80% 70%, rgba(183,176,138,.14), transparent 60%),
+    linear-gradient(180deg, #f6f8f5, #e7efe9);
 }
+
 
 .hero{
   text-align:center;
@@ -219,9 +202,7 @@ footer{
 }
 
 /* =========================================================
-   ✅ PAPER INVITATION POPUP (replaces rectangle modal)
-   - no countdown
-   - no "Not now" styling
+   ✅ PAPER INVITATION POPUP 
    ========================================================= */
 .paper-modal{
   position: fixed;
@@ -234,7 +215,7 @@ footer{
   position:absolute;
   inset:0;
   background:
-    radial-gradient(900px 520px at 50% 20%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(900px 520px at 50% 20%, rgba(255,255,255,.18), transparent 50%),
     linear-gradient(180deg, rgba(10,12,11,.55), rgba(10,12,11,.70));
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -398,7 +379,7 @@ footer{
   position: absolute;
   left: 5;
   top: 0; 
-  transform: translate(-0.45em, 0.30em) rotate(0deg);
+  transform: translate(-0.60em, 0.40em) rotate(0deg);
  /* overlap + slight tilt */
   opacity: .92;
   z-index: 2;
@@ -430,3 +411,238 @@ footer{
   opacity: .9;
 }
 
+.rsvp iframe{
+  border: none;
+  border-radius: 18px;
+  background: rgba(255,255,255,.65);
+  box-shadow: 0 18px 50px rgba(0,0,0,.08);
+}
+
+/* ================= LEFT HAMBURGER + SIDE NAV ================= */
+.menu-btn{
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 36px;
+
+  /* 🌿 Ombre sage glass */
+  background:
+    linear-gradient(135deg,
+      rgba(127,162,146,.95),
+      rgba(79,111,96,.95)
+    );
+
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.35);
+
+  display: grid;
+  gap: 5px;
+  place-content: center;
+  cursor: pointer;
+  z-index: 2000;
+
+  box-shadow:
+    0 14px 30px rgba(0,0,0,.22),
+    inset 0 1px 0 rgba(255,255,255,.35);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease;
+}
+
+/* hamburger lines */
+.menu-btn span{
+  width: 16px;
+  height: 2px;
+  background: rgba(255,255,255,.95);
+  border-radius: 999px;
+}
+
+/* hover */
+.menu-btn:hover{
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+/* press */
+.menu-btn:active{
+  transform: translateY(1px) scale(.98);
+}
+
+
+.menu-btn::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius: inherit;
+  background:
+    linear-gradient(120deg,
+      rgba(255,255,255,.0),
+      rgba(255,255,255,.25),
+      rgba(255,255,255,.0)
+    );
+  opacity:.45;
+  mix-blend-mode: soft-light;
+  pointer-events:none;
+}
+
+
+.side-nav{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: min(320px, 86vw);
+  height: 100vh;
+  background:
+    radial-gradient(900px 500px at 20% 10%, rgba(127,162,146,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.92), rgba(245,241,232,.92));
+  border-right: 1px solid rgba(0,0,0,.08);
+  box-shadow: 40px 0 120px rgba(0,0,0,.18);
+  transform: translateX(-110%);
+  transition: transform 360ms cubic-bezier(.2,.9,.2,1);
+  z-index: 2100;
+  padding: 16px 14px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.side-nav.open{
+  transform: translateX(0);
+}
+
+.nav-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 2050;
+}
+
+.side-head{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 4px 12px;
+}
+
+.close-btn{
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(255,255,255,.65);
+  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.side-links{
+  display:grid;
+  gap: 10px;
+  padding: 8px 4px;
+}
+
+.nav-link{
+  text-align:left;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(255,255,255,.72);
+  cursor: pointer;
+  font: inherit;
+  transition: transform .16s ease, filter .16s ease;
+}
+
+.nav-link:hover{
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+}
+
+.nav-link.is-active{
+  border-color: rgba(79,111,96,.28);
+  background: rgba(127,162,146,.16);
+}
+
+.side-foot{
+  padding: 10px 6px 6px;
+}
+
+.small-muted{
+  font-size: 12px;
+  opacity: .72;
+}
+
+/* ================= PAGES / ROUTING ================= */
+.pages{
+  min-height: 100vh;
+}
+
+.page{
+  display: none;
+  padding: 72px 16px 40px;
+}
+
+.page.is-active{
+  display: block;
+}
+
+.page-head{
+  max-width: 860px;
+  margin: 0 auto 14px;
+  padding: 10px 8px 0;
+}
+
+.page-head h2{
+  margin: 0 0 6px;
+  font-family: "Playfair Display", serif;
+  letter-spacing: .06em;
+  color: rgba(40,55,48,.92);
+}
+
+.muted{ color: rgba(0,0,0,.55); }
+
+/* RSVP paper wrapper */
+.paper-wrap{
+  max-width: 860px;
+  margin: 0 auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(0,0,0,.06);
+  box-shadow: 0 22px 60px rgba(0,0,0,.08);
+}
+
+.paper-wrap iframe{
+  width: 100%;
+  height: 980px;
+  border: none;
+  display: block;
+  background: transparent;
+}
+
+.iframe-fallback{
+  padding: 12px 14px 16px;
+  font-size: 13px;
+  color: rgba(0,0,0,.55);
+  background: rgba(255,255,255,.75);
+}
+
+.link{
+  color: rgba(79,111,96,.95);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(79,111,96,.25);
+}
+.link:hover{ border-bottom-color: rgba(79,111,96,.65); }
+
+/* Footer */
+.site-footer{
+  text-align:center;
+  padding: 24px 16px 40px;
+  opacity: .92;
+}
